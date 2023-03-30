@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const App = () => {
-  return (
-    <div>it is work</div>
-  )
-}
+	return <div>it is work</div>;
+};
 
-export default App
+export default App;
