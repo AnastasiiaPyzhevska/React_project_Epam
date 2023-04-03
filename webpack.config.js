@@ -14,10 +14,7 @@ module.exports = {
 		port: 3000,
 	},
 
-	plugins: [
-		new HTMLWebpackPlugin({ template: './public/index.html' }),
-		new CleanWebpackPlugin(),
-	],
+	plugins: [new HTMLWebpackPlugin({ template: './public/index.html' }), new CleanWebpackPlugin()],
 	module: {
 		rules: [
 			{

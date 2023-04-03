@@ -9,9 +9,7 @@ import Courses from '../../Courses.jsx';
 
 const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 	const [courses, setCourses] = useState(coursesList || mockedCoursesList);
-	const [authorsList, setAuthorsList] = useState(
-		authorList || mockedAuthorsList
-	);
+	const [authorsList, setAuthorsList] = useState(authorList || mockedAuthorsList);
 	const [isNewCourses, setIsNewCourses] = useState(isNewPost);
 
 	const [isNewAuthor, setNewAuthor] = useState(mockedAuthorsList);
@@ -65,9 +63,7 @@ const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 
 	const removeAuthorFromList = (author, event, index) => {
 		event.preventDefault();
-		setSelectedAuthors(
-			selectedAuthors.filter((aut) => aut.name !== author.name)
-		);
+		setSelectedAuthors(selectedAuthors.filter((aut) => aut.name !== author.name));
 		setAuthorsList([...authorsList, author]);
 	};
 
@@ -115,15 +111,7 @@ const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 	};
 
 	useEffect(() => {
-		isNewCourses ? (
-			<Courses
-				courses={courses}
-				authors={isNewAuthor}
-				isNewCourse={isNewCourses}
-			/>
-		) : (
-			<CreateCourses />
-		);
+		isNewCourses ? <Courses courses={courses} authors={isNewAuthor} isNewCourse={isNewCourses} /> : <CreateCourses />;
 	}, [isNewCourses, courses, isNewAuthor]);
 
 	const onBlurHandle = (e) => {
@@ -145,11 +133,7 @@ const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 	};
 
 	return isNewCourses === false ? (
-		<Courses
-			newCourses={courses}
-			newAuthors={isNewAuthor}
-			isNewCourse={isNewCourses}
-		/>
+		<Courses newCourses={courses} newAuthors={isNewAuthor} isNewCourse={isNewCourses} />
 	) : (
 		<div className={classes.ceateCourses}>
 			<form>
@@ -177,12 +161,7 @@ const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 						onBlur={(e) => onBlurHandle(e)}
 						onChange={(e) => titleHandler(e)}
 					/>
-					<Button
-						buttonText='Create course'
-						type='button'
-						onClick={createNewCource}
-						className={classes.buttonManipulation}
-					/>
+					<Button buttonText='Create course' type='button' onClick={createNewCource} className={classes.buttonManipulation} />
 				</div>
 				<h3 className={classes.header}>Description</h3>
 				{descriptionDirty && descriptionError && (
@@ -235,11 +214,7 @@ const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 									onBlur={(e) => onBlurHandle(e)}
 								/>
 								<div className={classes.createAuthorButton}>
-									<Button
-										buttonText='Create author'
-										type='button'
-										onClick={createNewAuthor}
-									/>
+									<Button buttonText='Create author' type='button' onClick={createNewAuthor} />
 								</div>
 							</div>
 						</div>
@@ -268,9 +243,7 @@ const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 								onChange={(e) => durationHandler(e)}
 								onBlur={(e) => onBlurHandle(e)}
 							/>
-							<p className={classes.durationConvert}>
-								Duration: {convertTime(duration)}
-							</p>
+							<p className={classes.durationConvert}>Duration: {convertTime(duration)}</p>
 						</div>
 					</div>
 					<div className={classes.authorSet}>
@@ -281,11 +254,7 @@ const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 									<React.Fragment key={index}>
 										<div className={classes.authorItems}>
 											<li key={index}>{author.name}</li>
-											<Button
-												buttonText='Add author'
-												type='button'
-												onClick={(e) => addAuthorFromList(author, e, index)}
-											/>
+											<Button buttonText='Add author' type='button' onClick={(e) => addAuthorFromList(author, e, index)} />
 										</div>
 									</React.Fragment>
 								))}
@@ -300,13 +269,7 @@ const CreateCourses = ({ coursesList, authorList, isNewPost }) => {
 										<React.Fragment key={index}>
 											<div className={classes.authorItems}>
 												<li key={index}>{author.name}</li>
-												<Button
-													buttonText='Remove author'
-													type='button'
-													onClick={(e) =>
-														removeAuthorFromList(author, e, index)
-													}
-												/>
+												<Button buttonText='Remove author' type='button' onClick={(e) => removeAuthorFromList(author, e, index)} />
 											</div>
 										</React.Fragment>
 									))}

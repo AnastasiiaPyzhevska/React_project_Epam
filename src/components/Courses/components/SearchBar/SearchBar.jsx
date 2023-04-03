@@ -21,13 +21,7 @@ const SearchBar = ({ getFilterValue }) => {
 
 	return (
 		<div className={classes.searchBar}>
-			<Input
-				labelText='search'
-				type='text'
-				placeholderText='Enter course name...'
-				value={filter}
-				onChange={handleSeachChange}
-			/>
+			<Input labelText='search' type='text' placeholderText='Enter course name...' value={filter} onChange={handleSeachChange} />
 			<Button buttonText='Search' type='button' onClick={handleSubmit} />
 		</div>
 	);

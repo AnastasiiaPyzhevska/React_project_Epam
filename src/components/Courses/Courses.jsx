@@ -9,7 +9,6 @@ import CreateCourses from './components/CreateCourses/CreateCourses.jsx';
 const Courses = ({ newCourses, newAuthors, isNewCourse }) => {
 	const [courses, setCourses] = useState(newCourses || mockedCoursesList);
 	const [authors, setAuthors] = useState(newAuthors || mockedAuthorsList);
-
 	const [createPost, setCreatePost] = useState(isNewCourse || false);
 	const [filter, setFilter] = useState('');
 
@@ -18,11 +17,7 @@ const Courses = ({ newCourses, newAuthors, isNewCourse }) => {
 	};
 
 	const search = (courses) => {
-		return courses.filter(
-			(item) =>
-				item.title.toLowerCase().includes(filter) ||
-				item.id.toString().includes(filter)
-		);
+		return courses.filter((item) => item.title.toLowerCase().includes(filter) || item.id.toString().includes(filter));
 	};
 
 	useEffect(() => {
@@ -31,11 +26,7 @@ const Courses = ({ newCourses, newAuthors, isNewCourse }) => {
 	}, []);
 
 	return createPost ? (
-		<CreateCourses
-			coursesList={courses}
-			authorList={authors}
-			isNewPost={createPost}
-		/>
+		<CreateCourses coursesList={courses} authorList={authors} isNewPost={createPost} />
 	) : (
 		<div className={classes.mainCourses}>
 			<div className={classes.mainSearchBar}>
