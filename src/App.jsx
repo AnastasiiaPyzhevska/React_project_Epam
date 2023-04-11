@@ -1,15 +1,18 @@
-import React from 'react';
-import Header from './components/Header/Header.jsx';
-import Courses from './components/Courses/Courses.jsx';
+import React, { useState } from 'react';
+import Header from './components/Header/Header';
+import Courses from './components/Courses/Courses';
 import './App.css';
+import CreateCourses from './components/Courses/components/CreateCourses/CreateCourses';
 
-const App = () => {
-	return (
-		<div className='main'>
-			<Header />
-			<Courses />
-		</div>
-	);
-};
+function App() {
+  const [isAddCourse, setIsAddCourse] = useState(false);
+
+  return (
+    <div className='main'>
+      <Header />
+      {isAddCourse ? <Courses setIsNewCourse={setIsAddCourse} /> : <CreateCourses setIsNewCourse={setIsAddCourse} />}
+    </div>
+  );
+}
 
 export default App;
