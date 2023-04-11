@@ -1,50 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import SearchBar from './components/SearchBar/SearchBar.jsx';
-import { CourseCard } from './components/CourseCard/CourseCard.jsx';
+import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import SearchBar from './components/SearchBar/SearchBar';
+import CourseCard from './components/CourseCard/CourseCard';
 import classes from './Courses.module.css';
-import { mockedCoursesList, mockedAuthorsList } from '../../constants.js';
-import { Button } from '../../common/Button/Button.jsx';
-import CreateCourses from './components/CreateCourses/CreateCourses.jsx';
+import { mockedCoursesList, mockedAuthorsList } from '../../constants';
+import Button from '../../common/Button/Button';
 
-const Courses = ({ newCourses, newAuthors, isNewCourse }) => {
-	const [courses, setCourses] = useState(newCourses || mockedCoursesList);
-	const [authors, setAuthors] = useState(newAuthors || mockedAuthorsList);
-	const [createPost, setCreatePost] = useState(isNewCourse || false);
-	const [filter, setFilter] = useState('');
+function Courses({ setIsNewCourse }) {
+  const [courses, setCourses] = useState(mockedCoursesList);
+  const [authors, setAuthors] = useState(mockedAuthorsList);
+  const [filter, setFilter] = useState('');
+  const search = (cours) => cours.filter((item) => item.title.toLowerCase().includes(filter) || item.id.toString().includes(filter));
 
-	const getFilter = (filt) => {
-		setFilter(filt.toString().toLowerCase());
-	};
+  useEffect(() => {
+    if (filter) {
+      setCourses(search(courses));
+    } else {
+      setCourses(mockedCoursesList);
+    }
+    setAuthors(authors);
+  }, [filter]);
 
-	const search = (courses) => {
-		return courses.filter((item) => item.title.toLowerCase().includes(filter) || item.id.toString().includes(filter));
-	};
+  const getFilter = (filt) => {
+    setFilter(filt.toString().toLowerCase());
+  };
 
-	useEffect(() => {
-		setCourses(search(courses));
-		setFilter(filter.toLowerCase());
-	}, []);
+  const createNewCourse = useCallback(() => {
+    setIsNewCourse(true);
+  }, [setIsNewCourse]);
+  return (
+    <div className={classes.mainCourses}>
+      <div className={classes.mainSearchBar}>
+        <SearchBar getFilterValue={getFilter} />
+        <Button
+          buttonText='Add new courses'
+          type='button'
+          onClick={() => {
+            createNewCourse();
+          }}
+          className={classes.buttonManipulation}
+        />
+      </div>
+      <div className={classes.coursesCard}>
+        <CourseCard coursesList={search(courses)} authorList={authors} />
+      </div>
+    </div>
+  );
+}
 
-	return createPost ? (
-		<CreateCourses coursesList={courses} authorList={authors} isNewPost={createPost} />
-	) : (
-		<div className={classes.mainCourses}>
-			<div className={classes.mainSearchBar}>
-				<SearchBar getFilterValue={getFilter} />
-				<Button
-					buttonText='Add new courses'
-					type='button'
-					onClick={() => {
-						setCreatePost(!createPost);
-					}}
-					className={classes.buttonManipulation}
-				/>
-			</div>
-			<div className={classes.coursesCard}>
-				<CourseCard coursesList={search(courses)} authorList={authors} />
-			</div>
-		</div>
-	);
+Courses.propTypes = {
+  setIsNewCourse: PropTypes.func,
+};
+
+Courses.defaultProps = {
+  setIsNewCourse: false,
 };
 
 export default Courses;

@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -33,8 +32,8 @@ function DescriptionInput({ classes, descriptionDirty, descriptionError, descrip
 
 DescriptionInput.propTypes = {
   classes: PropTypes.shape({
-    header: PropTypes.object,
-    description: PropTypes.object,
+    header: PropTypes.string,
+    description: PropTypes.string,
   }).isRequired,
   descriptionDirty: PropTypes.bool.isRequired,
   descriptionError: PropTypes.string.isRequired,

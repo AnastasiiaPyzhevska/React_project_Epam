@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../../../common/Input/Input';
@@ -42,8 +41,8 @@ function CreateAuthor({ classes, authorDirty, authorError, author, onBlurHandle,
 
 CreateAuthor.propTypes = {
   classes: PropTypes.shape({
-    createAuthor: PropTypes.object,
-    createAuthorButton: PropTypes.object,
+    createAuthor: PropTypes.string,
+    createAuthorButton: PropTypes.string,
   }).isRequired,
   authorDirty: PropTypes.bool.isRequired,
   authorError: PropTypes.string.isRequired,

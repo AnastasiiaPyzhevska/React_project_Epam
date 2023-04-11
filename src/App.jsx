@@ -6,11 +6,10 @@ import CreateCourses from './components/Courses/components/CreateCourses/CreateC
 
 function App() {
   const [isAddCourse, setIsAddCourse] = useState(false);
-
   return (
     <div className='main'>
       <Header />
-      {isAddCourse ? <Courses setIsNewCourse={setIsAddCourse} /> : <CreateCourses setIsNewCourse={setIsAddCourse} />}
+      {isAddCourse ? <CreateCourses setIsNewCourse={setIsAddCourse} /> : <Courses setIsNewCourse={setIsAddCourse} />}
     </div>
   );
 }

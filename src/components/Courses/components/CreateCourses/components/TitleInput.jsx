@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../../../common/Input/Input';
@@ -39,9 +38,9 @@ function TitleInput({ classes, titleDirty, titleError, title, onBlurHandle, titl
 
 TitleInput.propTypes = {
   classes: PropTypes.shape({
-    header: PropTypes.object,
-    createCoursesTitle: PropTypes.object,
-    buttonManipulation: PropTypes.object,
+    header: PropTypes.string,
+    createCoursesTitle: PropTypes.string,
+    buttonManipulation: PropTypes.string,
   }).isRequired,
   titleDirty: PropTypes.bool.isRequired,
   titleError: PropTypes.string.isRequired,

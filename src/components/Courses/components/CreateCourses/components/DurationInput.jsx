@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../../../common/Input/Input';
@@ -38,8 +37,8 @@ function DurationInput({ classes, durationDirty, durationError, duration, onBlur
 
 DurationInput.propTypes = {
   classes: PropTypes.shape({
-    createDuration: PropTypes.object,
-    durationConvert: PropTypes.object,
+    createDuration: PropTypes.string,
+    durationConvert: PropTypes.string,
   }).isRequired,
   durationDirty: PropTypes.bool.isRequired,
   durationError: PropTypes.string.isRequired,
