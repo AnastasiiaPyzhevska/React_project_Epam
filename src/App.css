@@ -8,3 +8,13 @@
 h1 {
     color: rgb(9, 148, 150);
 }
+
+.header {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: max-content;
+    border: 2px solid rgb(25, 183, 186);
+    justify-content: space-between;
+    padding: 0px 20px;
+}

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import TitleInput from './components/TitleInput';
 import DescriptionInput from './components/DescriptionInput';
 import CreateAuthor from './components/CreateAuthor';
@@ -10,7 +10,8 @@ import classes from './CreateCourses.module.css';
 import { mockedAuthorsList, mockedCoursesList } from '../../../../constants';
 import DurationInput from './components/DurationInput';
 
-function CreateCourses({ setIsNewCourse }) {
+function CreateCourses() {
+  const navigator = useNavigate();
   const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
   const [isNewAuthor, setNewAuthor] = useState(mockedAuthorsList);
 
@@ -45,12 +46,12 @@ function CreateCourses({ setIsNewCourse }) {
           creationDate: new Date().toLocaleDateString('en-GB'),
         };
         mockedCoursesList.push(newCource);
-        setIsNewCourse(false);
+        navigator('/courses');
       } else {
         alert('Something wrong... Fill all inputs and choose author/s');
       }
     },
-    [[title, description, duration, selectedAuthors, setIsNewCourse]]
+    [[title, description, duration, selectedAuthors]]
   );
 
   const createNewAuthor = useCallback(
@@ -87,7 +88,7 @@ function CreateCourses({ setIsNewCourse }) {
   );
 
   const validateInput = (value, minLength, errorSetter) => {
-    const re = new RegExp(`^[\\w\\d]{${minLength},}$`, 'gm');
+    const re = new RegExp(`^[\\w\\d\\s]{${minLength},}$`, 'gm');
     if (!re.test(String(value).toLowerCase())) {
       errorSetter(`Enter at least ${minLength} characters`);
     } else {
@@ -187,9 +188,5 @@ function CreateCourses({ setIsNewCourse }) {
     </div>
   );
 }
-
-CreateCourses.propTypes = {
-  setIsNewCourse: PropTypes.func.isRequired,
-};
 
 export default CreateCourses;

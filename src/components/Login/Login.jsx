@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
+import classes from './Login.module.css';
 
 function Login({ setLoginUser }) {
   const [email, setEmail] = useState('');
@@ -46,7 +47,7 @@ function Login({ setLoginUser }) {
       const result = await response.json();
       const success = result.successful;
       if (!success) {
-        alert(result.errors);
+        alert('Email or password are wrong, OR you are new User, please link to Registration');
       } else {
         navigate('/courses');
         setLoginUser({ isAuth: true, name: result.user.name, email: result.user.email, token: result.result });
@@ -58,6 +59,7 @@ function Login({ setLoginUser }) {
       }
     } catch (e) {
       alert(e);
+      console.log(e);
     }
   };
 
@@ -74,15 +76,15 @@ function Login({ setLoginUser }) {
   );
 
   return (
-    <div>
+    <div className={classes.block_Login}>
       <h1>Login</h1>
       <form onSubmit={createLogin}>
         <p>Email</p>
-        <Input type='email' placeholder='Enter email...' value={email} onChange={handleEmailChange} />
+        <Input type='email' placeholderText='Enter email...' value={email} onChange={handleEmailChange} />
         <p>Password</p>
-        <Input type='password' placeholder='Enter password...' value={password} onChange={handlePasswordChange} />
+        <Input type='password' placeholderText='Enter password...' value={password} onChange={handlePasswordChange} />
         <Button buttonText='Login' type='submit' />
-        <div>
+        <div className={classes.link_Registration}>
           If you have an account you can
           <Link to='/registration'> Registration </Link>
         </div>

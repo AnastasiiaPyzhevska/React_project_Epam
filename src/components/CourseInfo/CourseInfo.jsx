@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import { mockedAuthorsList } from '../../constants';
@@ -8,12 +8,15 @@ import classes from './CourseInfo.module.css';
 function CourseInfo() {
   const location = useLocation();
   const navigator = useNavigate();
-  const { id, title, description, duration, authors, creationDate } = location.state.item;
+  const { id, title, description, duration, authors, creationDate } = location.state.course;
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    navigator('/courses');
-  };
+  const handleClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      navigator('/courses');
+    },
+    [navigator]
+  );
 
   return (
     <div className={classes.courseInfo}>
@@ -37,8 +40,8 @@ function CourseInfo() {
           </p>
           <p>
             <strong>Authours: </strong>
-            {authors
-              .filter((author) => mockedAuthorsList.includes(author.id))
+            {mockedAuthorsList
+              .filter((author) => authors.includes(author.id))
               .map((item) => item.name)
               .join(', ')}
           </p>

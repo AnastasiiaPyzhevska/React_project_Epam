@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
+import classes from './Registration.module.css';
 
 function Registration() {
   const [name, setName] = useState('');
@@ -72,22 +73,20 @@ function Registration() {
   );
 
   return (
-    <div>
-      <div>
-        <h1>Registration</h1>
-        <form onSubmit={registrationSubmit}>
-          <p>Name</p>
-          <Input type='text' placeholder='Enter name...' value={name} onChange={handleNameChange} />
-          <p>Email</p>
-          <Input type='email' placeholder='Enter email...' value={email} onChange={handleEmailChange} />
-          <p>Password</p>
-          <Input type='password' placeholder='Enter password...' value={password} onChange={handlePasswordChange} />
-          <Button buttonText='Registration' type='submit' />
-        </form>
-        <div>
-          If you have an account you can
-          <Link to='/login'> Login </Link>
-        </div>
+    <div className={classes.block_Registration}>
+      <h1>Registration</h1>
+      <form onSubmit={registrationSubmit} className={classes.form}>
+        <p>Name</p>
+        <Input type='text' placeholderText='Enter name...' value={name} onChange={handleNameChange} />
+        <p>Email</p>
+        <Input type='email' placeholderText='Enter email...' value={email} onChange={handleEmailChange} />
+        <p>Password</p>
+        <Input type='password' placeholderText='Enter password...' value={password} onChange={handlePasswordChange} />
+        <Button buttonText='Registration' type='submit' />
+      </form>
+      <div className={classes.link_Login}>
+        If you have an account you can
+        <Link to='/login'> Login </Link>
       </div>
     </div>
   );

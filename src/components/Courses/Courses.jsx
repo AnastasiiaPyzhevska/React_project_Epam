@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SearchBar from './components/SearchBar/SearchBar';
 import CourseCard from './components/CourseCard/CourseCard';
 import classes from './Courses.module.css';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import Button from '../../common/Button/Button';
 
-function Courses({ setIsNewCourse }) {
+function Courses() {
   const [courses, setCourses] = useState(mockedCoursesList);
   const [authors, setAuthors] = useState(mockedAuthorsList);
   const [filter, setFilter] = useState('');
+  const navigator = useNavigate();
   const search = (cours) => cours.filter((item) => item.title.toLowerCase().includes(filter) || item.id.toString().includes(filter));
 
   useEffect(() => {
@@ -25,9 +26,6 @@ function Courses({ setIsNewCourse }) {
     setFilter(filt.toString().toLowerCase());
   };
 
-  const createNewCourse = useCallback(() => {
-    setIsNewCourse(true);
-  }, [setIsNewCourse]);
   return (
     <div className={classes.mainCourses}>
       <div className={classes.mainSearchBar}>
@@ -36,7 +34,7 @@ function Courses({ setIsNewCourse }) {
           buttonText='Add new courses'
           type='button'
           onClick={() => {
-            createNewCourse();
+            navigator('/courses/add');
           }}
           className={classes.buttonManipulation}
         />
@@ -47,13 +45,5 @@ function Courses({ setIsNewCourse }) {
     </div>
   );
 }
-
-Courses.propTypes = {
-  setIsNewCourse: PropTypes.func,
-};
-
-Courses.defaultProps = {
-  setIsNewCourse: false,
-};
 
 export default Courses;
