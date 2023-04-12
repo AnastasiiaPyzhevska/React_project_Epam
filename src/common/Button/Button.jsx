@@ -1,15 +1,14 @@
 import React from 'react';
+import ButtonPropTypes from './Button.propTypes';
 import classes from './Button.module.css';
 
-export const Button = ({ buttonText, type, onClick, ...rest }) => {
-	return (
-		<button
-			className={classes.myButton}
-			type={type}
-			onClick={onClick}
-			{...rest}
-		>
-			{buttonText}
-		</button>
-	);
-};
+function Button({ buttonText, type, onClick, ...rest }) {
+  return (
+    <button type={type === 'submit' ? 'submit' : 'button'} className={classes.myButton} onClick={onClick} {...rest}>
+      {buttonText}
+    </button>
+  );
+}
+
+Button.propTypes = ButtonPropTypes;
+export default Button;

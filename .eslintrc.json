@@ -3,30 +3,42 @@
         "browser": true,
         "es2021": true
     },
-    "extends": ["prettier"],
+    "extends": ["prettier", "eslint-config-airbnb", "eslint-config-prettier"],
         "parserOptions": {
-        "ecmaFeatures": {
-                        "jsx": true
-            },
+        "ecmaFeatures": { "jsx": true },
         "ecmaVersion": 12,
         "sourceType": "module"
     },
     "plugins": [
-    "react",
-    "prettier"
+        "react",
+        "prettier",
+        "eslint-plugin-import",
+        "eslint-plugin-jsx-a11y"
     ],
     "rules": {
         "prettier/prettier": [
-        "error", {
-        "printWidth": 80,
-        "trailingComma": "es5",
-        "semi": true,
-        "jsxSingleQuote": true,
-        "singleQuote": true,
-        "useTabs": true,
-        "endOfLine": "auto",
-        "max-len": ["error", { "code": 80 }]
+            "error", {
+                "printWidth": 150,
+                "useTabs": false,
+                "tabWidth": 2,
+                "bracketSpacing": true,
+                "jsxBracketSameLine": false,
+                "trailingComma": "es5",
+                "semi": true,
+                "jsxSingleQuote": true,
+                "singleQuote": true,
+                "endOfLine": "auto",
+                "max-len": ["error", { "code": 80 }],
+                "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+                "no-whitespace-before-property": "error",
+                "no-multi-spaces": "error",
+                "comma-spacing": ["error", { "before": false, "after": true }]
+            }
+        ],
+        "react/jsx-props-no-spreading": "off",
+        "react/prop-types": "off",
+        "no-console": "off",
+        "no-alert": "off",
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
     }
-    ]
-    }
-   }
+}
