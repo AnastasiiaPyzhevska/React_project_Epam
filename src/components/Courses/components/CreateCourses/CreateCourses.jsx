@@ -96,48 +96,63 @@ function CreateCourses() {
     }
   };
 
-  const titleHandler = useCallback((e) => {
-    e.preventDefault();
-    setTitle(e.target.value);
-    validateInput(e.target.value, 2, setTitleError);
-  }, []);
+  const titleHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      setTitle(e.target.value);
+      validateInput(e.target.value, 2, setTitleError);
+    },
+    [setTitle, setTitleError]
+  );
 
-  const descriptionHandler = useCallback((e) => {
-    e.preventDefault();
-    setDescription(e.target.value);
-    validateInput(e.target.value, 2, setDescriptionError);
-  }, []);
+  const descriptionHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      setDescription(e.target.value);
+      validateInput(e.target.value, 2, setDescriptionError);
+    },
+    [setDescription, setDescriptionError]
+  );
 
-  const authorHandler = useCallback((e) => {
-    e.preventDefault();
-    setAuthor(e.target.value);
-    validateInput(e.target.value, 2, setAuthorError);
-  }, []);
+  const authorHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      setAuthor(e.target.value);
+      validateInput(e.target.value, 2, setAuthorError);
+    },
+    [setAuthor, setAuthorError]
+  );
 
-  const durationHandler = useCallback((e) => {
-    e.preventDefault();
-    setDuration(e.target.value);
-    const re = /^[0-9\b]+$/;
-    if (re.test(e.target.value) && e.target.value > 0) {
-      setDurationError('');
-    } else {
-      setDurationError('Enter duration at least 1 minutes');
-    }
-  }, []);
+  const durationHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      setDuration(e.target.value);
+      const re = /^[0-9\b]+$/;
+      if (re.test(e.target.value) && e.target.value > 0) {
+        setDurationError('');
+      } else {
+        setDurationError('Enter duration at least 1 minutes');
+      }
+    },
+    [setDuration, setDurationError]
+  );
 
-  const onBlurHandle = (e) => {
-    e.preventDefault();
-    const inputNameToSetter = {
-      title: setTitleDirty,
-      author: setAuthorDirty,
-      description: setDescriptionDirty,
-      duration: setDurationDirty,
-    };
-    const setter = inputNameToSetter[e.target.name];
-    if (setter) {
-      setter(true);
-    }
-  };
+  const onBlurHandle = useCallback(
+    (e) => {
+      e.preventDefault();
+      const inputNameToSetter = {
+        title: setTitleDirty,
+        author: setAuthorDirty,
+        description: setDescriptionDirty,
+        duration: setDurationDirty,
+      };
+      const setter = inputNameToSetter[e.target.name];
+      if (setter) {
+        setter(true);
+      }
+    },
+    [setTitleDirty, setAuthorDirty, setDescriptionDirty, setDurationDirty]
+  );
 
   return (
     <div className={classes.ceateCourses}>
