@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classes from './Input.module.css';
-import InputPropTypes from './Input.propTypes';
 
 function Input({ labelText, placeholderText, type, onChange, ...rest }) {
   return (
@@ -10,5 +10,15 @@ function Input({ labelText, placeholderText, type, onChange, ...rest }) {
   );
 }
 
-Input.propTypes = InputPropTypes;
+Input.propTypes = {
+  labelText: PropTypes.string,
+  placeholderText: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+Input.defaultProps = {
+  labelText: '',
+};
+
 export default Input;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../../../common/Button/Button';
 import Input from '../../../../common/Input/Input';
@@ -11,12 +11,15 @@ function SearchBar({ getFilterValue }) {
     getFilterValue(filter);
   };
 
-  const handleSeachChange = (e) => {
-    setFilter(e.target.value);
-    if (e.target.value.length === 0) {
-      getFilterValue('');
-    }
-  };
+  const handleSeachChange = useCallback(
+    (e) => {
+      setFilter(e.target.value);
+      if (e.target.value.length === 0) {
+        getFilterValue('');
+      }
+    },
+    [setFilter, getFilterValue]
+  );
 
   return (
     <div className={classes.searchBar}>

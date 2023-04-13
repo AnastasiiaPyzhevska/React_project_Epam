@@ -25,21 +25,18 @@ function Courses({ setIsNewCourse }) {
     setFilter(filt.toString().toLowerCase());
   };
 
-  const createNewCourse = useCallback(() => {
+  function createNewCourse() {
     setIsNewCourse(true);
-  }, [setIsNewCourse]);
+  }
+  const handleCreateNewCourse = useCallback(() => {
+    createNewCourse();
+  }, [createNewCourse]);
+
   return (
     <div className={classes.mainCourses}>
       <div className={classes.mainSearchBar}>
         <SearchBar getFilterValue={getFilter} />
-        <Button
-          buttonText='Add new courses'
-          type='button'
-          onClick={() => {
-            createNewCourse();
-          }}
-          className={classes.buttonManipulation}
-        />
+        <Button buttonText='Add new courses' type='button' onClick={handleCreateNewCourse} className={classes.buttonManipulation} />
       </div>
       <div className={classes.coursesCard}>
         <CourseCard coursesList={search(courses)} authorList={authors} />
