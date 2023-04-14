@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
@@ -8,6 +9,7 @@ import Logo from './components/Header/components/Logo/Logo';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
+// import store from './store/index';
 
 function App() {
   const [loginUser, setLoginUser] = useState({
@@ -18,6 +20,8 @@ function App() {
   });
 
   const userToken = localStorage.getItem('token');
+  // const test = useSelector((state) => state.user);
+  // console.log(test);
 
   return (
     <div className='main'>
