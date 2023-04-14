@@ -1,0 +1,8 @@
+const ActionTypes = {
+  GET_COURSES: 'GET_COURSES',
+  SAVE_NEW_COURSE: 'SAVE_NEW_COURSE',
+  DELETE_COURSE: 'DELETE_COURSE',
+  UPDATE_COURSE: 'UPDATE_COURSE',
+};
+
+export default ActionTypes;

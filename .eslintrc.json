@@ -40,6 +40,7 @@
         "no-console": "off",
         "no-alert": "off",
         "react/button-has-type": "off",
-        "default-param-last": "off"
+        "default-param-last": "off",
+        "no-unused-vars": "off"
     }
 }

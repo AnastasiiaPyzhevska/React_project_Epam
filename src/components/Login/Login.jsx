@@ -1,23 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { userLogin, userLogout } from '../../store/user/actionCreators';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import classes from './Login.module.css';
 
-function Login({ setLoginUser }) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [token, setToken] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (setLoginUser({ isAuth: false })) {
-      navigate('/login');
-    }
     if (localStorage.getItem('token')) {
       navigate('/courses');
+    } else {
+      navigate('/login');
     }
-  }, []);
+  }, [navigate]);
 
   const handleEmailChange = useCallback(
     (e) => {
@@ -50,12 +52,14 @@ function Login({ setLoginUser }) {
         alert('Email or password are wrong, OR you are new User, please link to Registration');
       } else {
         navigate('/courses');
-        setLoginUser({ isAuth: true, name: result.user.name, email: result.user.email, token: result.result });
+        dispatch(userLogin(result.user));
         setEmail('');
         setPassword('');
-        localStorage.setItem('token', result.result);
+        const tokenUser = result.result;
+        localStorage.setItem('token', token);
         localStorage.setItem('name', result.user.name);
         localStorage.setItem('isAuth', true);
+        setToken(tokenUser);
       }
     } catch (e) {
       alert(e);
