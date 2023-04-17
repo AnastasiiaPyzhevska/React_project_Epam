@@ -1,21 +1,28 @@
 import ActionTypes from './actionTypes';
 
-export const getAllCourses = (courses) => ({
-  type: ActionTypes.GET_COURSES,
-  payload: courses,
-});
+// export const getAllCourses = (payload) => ({
+//   type: ActionTypes.GET_COURSES,
+//   payload,
+// });
+export const getAllCourses = (payload) => {
+  console.log('getAllCourses!!!!!!!!!!!!!!!!!!!!!');
+  return {
+    type: ActionTypes.GET_COURSES,
+    payload,
+  };
+};
 
-export const saveNewCourse = (course) => ({
+export const saveNewCourse = (payload) => ({
   type: ActionTypes.SAVE_NEW_COURSE,
-  payload: course,
+  payload,
 });
 
-export const deleteCourse = (course) => ({
+export const deleteCourse = (payload) => ({
   type: ActionTypes.DELETE_COURSE,
-  payload: course,
+  payload,
 });
 
-export const changeCourse = (course) => ({
+export const changeCourse = (payload) => ({
   type: ActionTypes.UPDATE_COURSE,
-  payload: course,
+  payload,
 });

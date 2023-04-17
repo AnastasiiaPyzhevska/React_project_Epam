@@ -7,7 +7,8 @@ const initialStateForCourses = {
 const coursesReducer = (state = initialStateForCourses, action) => {
   switch (action.type) {
     case ActionTypes.GET_COURSES:
-      return [...action.payload];
+      // return [...state, action.payload];
+      return { courses: action.payload };
     case ActionTypes.SAVE_NEW_COURSE:
       return [...state, ...action.payload];
     case ActionTypes.DELETE_COURSE:

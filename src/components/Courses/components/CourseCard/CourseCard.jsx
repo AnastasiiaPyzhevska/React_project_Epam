@@ -7,6 +7,9 @@ import convertTime from '../../../../helpers/convertTime';
 
 function CourseCard({ coursesList, authorList }) {
   const navigate = useNavigate();
+  // console.dir('CourseCard arguments');
+  // eslint-disable-next-line prefer-rest-params
+  // console.dir(arguments);
 
   const handleShowClick = (e, course) => {
     e.preventDefault();
@@ -24,7 +27,11 @@ function CourseCard({ coursesList, authorList }) {
           <p className={classes.author}>
             <strong>Authours: </strong>
             {authorList
-              .filter((mockedItem) => item.authors.includes(mockedItem.id))
+              .filter((mockedItem) => {
+                console.log('mockedItem');
+                console.log(mockedItem);
+                return item.authors.includes(mockedItem.id);
+              })
               .map((author) => author.name)
               .join(', ')}
           </p>

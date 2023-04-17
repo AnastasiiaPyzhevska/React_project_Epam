@@ -56,7 +56,7 @@ function Login() {
         setEmail('');
         setPassword('');
         const tokenUser = result.result;
-        localStorage.setItem('token', token);
+        localStorage.setItem('token', tokenUser);
         localStorage.setItem('name', result.user.name);
         localStorage.setItem('isAuth', true);
         setToken(tokenUser);

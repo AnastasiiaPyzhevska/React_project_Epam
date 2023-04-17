@@ -1,10 +1,10 @@
 import ActionTypes from './actionTypes';
 
-export const getAllAUthors = (authors) => ({
+export const getAllAUthors = (payload) => ({
   type: ActionTypes.GET_AUTHORS,
-  payload: authors,
+  payload,
 });
-export const saveNewAuthor = (author) => ({
+export const saveNewAuthor = (payload) => ({
   type: ActionTypes.SAVE_NEW_AUTHOR,
-  payload: author,
+  payload,
 });

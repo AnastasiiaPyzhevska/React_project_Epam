@@ -1,4 +1,4 @@
-import { combineReducers, legacy_createStore as createStore } from 'redux';
+import { combineReducers, legacy_createStore as createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import userReducer from './user/reducer';
 import authorsReducer from './authors/reducer';
@@ -10,6 +10,6 @@ const rootReducer = combineReducers({
   authors: authorsReducer,
 });
 
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()));
 
 export default store;
