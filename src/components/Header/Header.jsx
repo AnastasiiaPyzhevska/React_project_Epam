@@ -12,13 +12,19 @@ function Header({ setLoginUser }) {
   const dispatch = useDispatch();
   const userName = useSelector(getUserName);
 
-  const logOutUser = useCallback(() => {
-    navigate('/login');
-    dispatch(userLogout());
-    localStorage.removeItem('token');
-    localStorage.removeItem('name');
-    localStorage.removeItem('isAuth');
-  }, [setLoginUser, navigate]);
+  const logOutUser = useCallback(
+    (e) => {
+      e.preventDefault();
+      navigate('/login');
+      dispatch(userLogout());
+      localStorage.removeItem('token');
+      localStorage.removeItem('name');
+      localStorage.removeItem('isAuth');
+      window.location.reload();
+    },
+    [setLoginUser, navigate]
+  );
+
   return (
     <div className={classes.header}>
       <Logo />

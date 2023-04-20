@@ -8,8 +8,8 @@ function AddAuthorsToList({ classes, authorsList, addAuthorFromList }) {
       <h3>Authors</h3>
       <ul>
         {authorsList.map((authShow) => (
-          <div className={classes.authorItems}>
-            <li key={authShow.id}>{authShow.name}</li>
+          <div key={authShow.id} className={classes.authorItems}>
+            <li>{authShow.name}</li>
             <Button buttonText='Add author' type='button' onClick={(e) => addAuthorFromList(authShow, e)} />
           </div>
         ))}

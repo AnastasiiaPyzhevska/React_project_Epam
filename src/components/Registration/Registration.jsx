@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import classes from './Registration.module.css';
+import { registrationRequest } from '../../servises';
 
 function Registration() {
   const [name, setName] = useState('');
@@ -34,30 +35,22 @@ function Registration() {
     [setPassword]
   );
 
-  const registration = async (newCustomer) => {
-    try {
-      const response = await fetch('http://localhost:4000/register', {
-        method: 'POST',
-        body: JSON.stringify(newCustomer),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const result = await response.json();
-      const success = result.successful;
+  const registration = useCallback(
+    async (newCustomer) => {
+      const response = await registrationRequest(newCustomer);
+      const success = response.successful;
       if (!success) {
-        alert(result.errors);
+        alert(response.errors);
       } else {
         navigate('/login');
         setName('');
         setEmail('');
         setPassword('');
-        alert(result.result);
+        alert(response.result);
       }
-    } catch (e) {
-      alert(e);
-    }
-  };
+    },
+    [navigate, setName, setEmail, setPassword]
+  );
 
   const registrationSubmit = useCallback(
     (e) => {

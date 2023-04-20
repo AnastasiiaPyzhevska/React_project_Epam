@@ -1,19 +1,23 @@
 import React, { useState, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import TitleInput from './components/TitleInput';
 import DescriptionInput from './components/DescriptionInput';
 import CreateAuthor from './components/CreateAuthor';
 import AddAuthorsToList from './components/AddAuthorsToList';
 import RemoveAuthorsFromList from './components/RemoveAuthorsFromList';
 import classes from './CreateCourses.module.css';
-import { mockedAuthorsList, mockedCoursesList } from '../../../../constants';
 import DurationInput from './components/DurationInput';
+import { saveNewCourse } from '../../../../store/courses/actionCreators';
+import { saveNewAuthor } from '../../../../store/authors/actionCreators';
+import { getAuthors } from '../../../../store/selectors';
 
 function CreateCourses() {
   const navigator = useNavigate();
-  const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
-  const [isNewAuthor, setNewAuthor] = useState(mockedAuthorsList);
+  const dispatch = useDispatch();
+  const authorsList = useSelector(getAuthors);
+  const [displayAuthors, setDisplayAuthors] = useState(authorsList.sort((a1, a2) => (a1.name < a2.name ? -1 : 1)));
 
   const [title, setTitle] = useState('');
   const [titleDirty, setTitleDirty] = useState(false);
@@ -45,7 +49,7 @@ function CreateCourses() {
           id: uuidv4(),
           creationDate: new Date().toLocaleDateString('en-GB'),
         };
-        mockedCoursesList.push(newCource);
+        dispatch(saveNewCourse(newCource));
         navigator('/courses');
       } else {
         alert('Something wrong... Fill all inputs and choose author/s');
@@ -61,19 +65,18 @@ function CreateCourses() {
         id: uuidv4(),
         name: author,
       };
-      setNewAuthor([...isNewAuthor, newAuthor]);
-      setAuthorsList([...authorsList, newAuthor]);
-      mockedAuthorsList.push(newAuthor);
+      dispatch(saveNewAuthor(newAuthor));
+      setDisplayAuthors([...displayAuthors, newAuthor].sort((a1, a2) => (a1.name < a2.name ? -1 : 1)));
       setAuthor('');
     },
-    [author, setNewAuthor, authorsList]
+    [author, dispatch]
   );
 
   const removeAuthorHandler = useCallback(
     (authorsRemove, event) => {
       event.preventDefault();
       setSelectedAuthors(selectedAuthors.filter((aut) => aut.name !== authorsRemove.name));
-      setAuthorsList([...authorsList, authorsRemove]);
+      setDisplayAuthors([...displayAuthors, authorsRemove].sort((a1, a2) => (a1.name < a2.name ? -1 : 1)));
     },
     [selectedAuthors, authorsList]
   );
@@ -82,9 +85,9 @@ function CreateCourses() {
     (authorsAdd, event) => {
       event.preventDefault();
       setSelectedAuthors([...selectedAuthors, authorsAdd]);
-      setAuthorsList(authorsList.filter((aut) => aut.name !== authorsAdd.name));
+      setDisplayAuthors(displayAuthors.filter((aut) => aut.name !== authorsAdd.name));
     },
-    [selectedAuthors, authorsList]
+    [selectedAuthors, displayAuthors]
   );
 
   const validateInput = (value, minLength, errorSetter) => {
@@ -195,7 +198,7 @@ function CreateCourses() {
             />
           </div>
           <div className={classes.authorSet}>
-            <AddAuthorsToList classes={classes} authorsList={authorsList} addAuthorFromList={addAuthorHandler} />
+            <AddAuthorsToList classes={classes} authorsList={displayAuthors} addAuthorFromList={addAuthorHandler} />
             <RemoveAuthorsFromList classes={classes} selectedAuthors={selectedAuthors} removeAuthorFromList={removeAuthorHandler} />
           </div>
         </div>

@@ -7,10 +7,9 @@ const initialStateForAuthors = {
 const authorsReducer = (state = initialStateForAuthors, action) => {
   switch (action.type) {
     case ActionTypes.GET_AUTHORS:
-      // return [...state, action.payload];
       return { autors: action.payload };
     case ActionTypes.SAVE_NEW_AUTHOR:
-      return [...state, ...action.payload];
+      return { ...state, autors: [...state.autors, action.payload] };
     default:
       return state;
   }

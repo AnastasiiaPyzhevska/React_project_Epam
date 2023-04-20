@@ -97,7 +97,7 @@ li {
 }
 
 .buttonManipulation {
-    width: 170px;
+    width: max-content;
     height: 35px;
     padding: 5px;
     border: 2px solid orange;

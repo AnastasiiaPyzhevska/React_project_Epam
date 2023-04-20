@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
@@ -9,58 +9,33 @@ import Logo from './components/Header/components/Logo/Logo';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
-import { getUserAuth, getCourses, getAuthors } from './store/selectors';
-import { authorsReguest, coursesReguest } from './servises';
+import { authorsRequest, coursesRequest } from './servises';
 import { getAllAUthors } from './store/authors/actionCreators';
 import { getAllCourses } from './store/courses/actionCreators';
-
-// import store from './store/index';
+import { userLogin } from './store/user/actionCreators';
 
 function App() {
   const dispatch = useDispatch();
-  const userToken = useSelector(getUserAuth);
-  const courses = useSelector(getCourses);
-  const authors = useSelector(getAuthors);
+  const userToken = localStorage.getItem('token');
+  const userName = localStorage.getItem('name');
 
-  // const fetchCourses = useCallback(async () => {
-  //   try {
-  //     const result = await coursesReguest();
-  //     console.log('resul1t');
-  //     console.log(result);
-  //     dispatch(getAllCourses(result.result));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [dispatch]);
   const fetchCourses = async () => {
-    const response = await coursesReguest();
-    console.log('response');
-    console.log(response);
+    const response = await coursesRequest();
     dispatch(getAllCourses(response.result));
   };
 
   const fetchAuthors = async () => {
-    const response = await authorsReguest();
-    console.log('response');
-    console.log(response);
+    const response = await authorsRequest();
     dispatch(getAllAUthors(response.result));
   };
 
-  // const fetchAuthors = useCallback(async () => {
-  //   try {
-  //     const result = await authorsReguest();
-  //     console.log('resul2t');
-  //     console.log(result);
-  //     dispatch(getAllAUthors(result.result));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [dispatch]);
-
   useEffect(() => {
+    if (userToken) {
+      dispatch(userLogin({ isAuth: true, name: userName }));
+    }
     fetchAuthors();
     fetchCourses();
-  }, [fetchAuthors, fetchCourses, userToken]);
+  }, [dispatch]);
 
   return (
     <div className='main'>

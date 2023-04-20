@@ -1,14 +1,16 @@
 import React, { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Button from '../../common/Button/Button';
-import { mockedAuthorsList } from '../../constants';
 import convertTime from '../../helpers/convertTime';
 import classes from './CourseInfo.module.css';
+import { getAuthors } from '../../store/selectors';
 
 function CourseInfo() {
   const location = useLocation();
   const navigator = useNavigate();
-  const { id, title, description, duration, authors, creationDate } = location.state.course;
+  const authorsList = useSelector(getAuthors);
+  const { id, title, description, duration, authors, creationDate } = location.state.clickedCourse;
 
   const handleClick = useCallback(
     (e) => {
@@ -40,10 +42,11 @@ function CourseInfo() {
           </p>
           <p>
             <strong>Authours: </strong>
-            {mockedAuthorsList
+            {authorsList
               .filter((author) => authors.includes(author.id))
-              .map((item) => item.name)
-              .join(', ')}
+              .map((item) => (
+                <span key={item.id}>{item.name} </span>
+              ))}
           </p>
         </div>
       </div>

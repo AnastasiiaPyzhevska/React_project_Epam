@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { userLogin, userLogout } from '../../store/user/actionCreators';
+import { userLogin } from '../../store/user/actionCreators';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import classes from './Login.module.css';
+import { loginRequest } from '../../servises';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -37,35 +38,27 @@ function Login() {
     [setPassword]
   );
 
-  const enterence = async (user) => {
-    try {
-      const response = await fetch('http://localhost:4000/login', {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const result = await response.json();
-      const success = result.successful;
+  const enterence = useCallback(
+    async (user) => {
+      const response = await loginRequest(user);
+      const success = response.successful;
       if (!success) {
         alert('Email or password are wrong, OR you are new User, please link to Registration');
       } else {
         navigate('/courses');
-        dispatch(userLogin(result.user));
+        dispatch(userLogin(response.user));
         setEmail('');
         setPassword('');
-        const tokenUser = result.result;
+        const tokenUser = response.result;
         localStorage.setItem('token', tokenUser);
-        localStorage.setItem('name', result.user.name);
+        localStorage.setItem('name', response.user.name);
         localStorage.setItem('isAuth', true);
         setToken(tokenUser);
+        window.location.reload();
       }
-    } catch (e) {
-      alert(e);
-      console.log(e);
-    }
-  };
+    },
+    [dispatch, setEmail, setPassword, navigate, setToken]
+  );
 
   const createLogin = useCallback(
     (e) => {

@@ -9,8 +9,8 @@ function RemoveAuthorsFromList({ classes, selectedAuthors, removeAuthorFromList 
       {selectedAuthors.length > 0 ? (
         <ul>
           {selectedAuthors.map((authAdd) => (
-            <div className={classes.authorItems}>
-              <li key={authAdd.id}>{authAdd.name}</li>
+            <div key={authAdd.id} className={classes.authorItems}>
+              <li>{authAdd.name}</li>
               <Button buttonText='Remove author' type='button' onClick={(e) => removeAuthorFromList(authAdd, e)} />
             </div>
           ))}
