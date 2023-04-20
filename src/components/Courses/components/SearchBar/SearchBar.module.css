@@ -1,0 +1,22 @@
+.searchBar {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.searchInput {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.searchBar input{
+    width: 80%;
+}
+
+.searchBar label {
+    width: 100%;
+
+}
