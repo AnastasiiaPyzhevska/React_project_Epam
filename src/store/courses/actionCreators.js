@@ -1,16 +1,9 @@
 import ActionTypes from './actionTypes';
 
-// export const getAllCourses = (payload) => ({
-//   type: ActionTypes.GET_COURSES,
-//   payload,
-// });
-export const getAllCourses = (payload) => {
-  console.log('getAllCourses!!!!!!!!!!!!!!!!!!!!!');
-  return {
-    type: ActionTypes.GET_COURSES,
-    payload,
-  };
-};
+export const getAllCourses = (payload) => ({
+  type: ActionTypes.GET_COURSES,
+  payload,
+});
 
 export const saveNewCourse = (payload) => ({
   type: ActionTypes.SAVE_NEW_COURSE,

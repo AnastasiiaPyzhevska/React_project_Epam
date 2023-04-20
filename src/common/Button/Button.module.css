@@ -1,5 +1,6 @@
 .myButton {
-    width: 170px;
+    /* width: 170px; */
+    width: max-content;
     height: 35px;
     padding: 5px;
     border: 2px solid rgb(9, 148, 150);
@@ -8,4 +9,12 @@
     background-color: rgb(9, 148, 150);
     color: white;
     font-weight: 500;
+}
+
+/* .iconButton {
+    width: max-content !important;
+} */
+
+.myButtonText {
+    padding: 10px 40px;
 }
