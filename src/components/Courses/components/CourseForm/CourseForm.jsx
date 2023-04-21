@@ -7,7 +7,7 @@ import DescriptionInput from './components/DescriptionInput';
 import CreateAuthor from './components/CreateAuthor';
 import AddAuthorsToList from './components/AddAuthorsToList';
 import RemoveAuthorsFromList from './components/RemoveAuthorsFromList';
-import classes from './CreateCourses.module.css';
+import classes from './CourseForm.module.css';
 import DurationInput from './components/DurationInput';
 import { saveNewCourse } from '../../../../store/courses/actionCreators';
 import { saveNewAuthor } from '../../../../store/authors/actionCreators';

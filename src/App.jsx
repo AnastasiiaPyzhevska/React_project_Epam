@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
 import './App.css';
-import CreateCourses from './components/Courses/components/CreateCourses/CreateCourses';
+import CreateCourses from './components/Courses/components/CourseForm/CourseForm';
 import Logo from './components/Header/components/Logo/Logo';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
