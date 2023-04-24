@@ -1,0 +1,40 @@
+.courseCard {
+    display: flex;
+    height: max-content;
+    border: 2px solid  rgb(9, 148, 150);;
+    font-size: 16px;
+    margin: 10px;
+    justify-content: space-between;
+    width: 98%;
+}
+
+.description {
+    width: 60%;
+    padding: 10px 20px;
+}
+
+.addInformation {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px 10px 20px;
+    width: 30%;
+}
+
+.addInformation p {
+    margin: 2px;
+    padding: 5px 0px;
+}
+
+.buttonShowCourse{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.author {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
