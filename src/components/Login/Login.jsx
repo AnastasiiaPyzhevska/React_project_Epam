@@ -5,7 +5,7 @@ import { userLogin } from '../../store/user/actionCreators';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import classes from './Login.module.css';
-import { loginRequest } from '../../servises';
+import { loginRequest, checkUserRequest } from '../../servises';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -45,7 +45,6 @@ function Login() {
       if (!success) {
         alert('Email or password are wrong, OR you are new User, please link to Registration');
       } else {
-        navigate('/courses');
         dispatch(userLogin(response.user));
         setEmail('');
         setPassword('');
@@ -53,6 +52,7 @@ function Login() {
         localStorage.setItem('token', tokenUser);
         localStorage.setItem('name', response.user.name);
         localStorage.setItem('isAuth', true);
+        navigate('/courses');
         setToken(tokenUser);
         window.location.reload();
       }

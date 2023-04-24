@@ -13,7 +13,7 @@ import { saveNewCourse } from '../../../../store/courses/actionCreators';
 import { saveNewAuthor } from '../../../../store/authors/actionCreators';
 import { getAuthors } from '../../../../store/selectors';
 
-function CreateCourses() {
+function CourseForm() {
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const authorsList = useSelector(getAuthors);
@@ -207,4 +207,4 @@ function CreateCourses() {
   );
 }
 
-export default CreateCourses;
+export default CourseForm;

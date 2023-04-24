@@ -5,6 +5,7 @@ const initialStateForUser = {
   name: '',
   email: '',
   token: '',
+  role: '',
 };
 
 const userReducer = (state = initialStateForUser, action) => {
@@ -19,7 +20,8 @@ const userReducer = (state = initialStateForUser, action) => {
       };
     case ActionTypes.LOGOUT:
       return { ...state, ...initialStateForUser };
-
+    case ActionTypes.ROLE_USER:
+      return { ...state, ...action.payload };
     default:
       return state;
   }

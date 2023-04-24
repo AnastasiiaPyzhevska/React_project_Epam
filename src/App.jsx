@@ -4,9 +4,10 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
 import './App.css';
-import CreateCourses from './components/Courses/components/CourseForm/CourseForm';
+import CourseForm from './components/Courses/components/CourseForm/CourseForm';
 import Logo from './components/Header/components/Logo/Logo';
 import Registration from './components/Registration/Registration';
+import PrivateRouter from './components/PrivateRouter/PrivateRouter';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 import { authorsRequest, coursesRequest } from './servises';
@@ -48,12 +49,14 @@ function App() {
           <Header />
         )}
         <Routes>
+          <Route element={<PrivateRouter />}>
+            <Route path='/courses/add' element={<CourseForm />} exact />
+            <Route path='/courses/update/:id' element={<CourseForm />} exact />
+          </Route>
           <Route path='/registration' element={<Registration />} />
           <Route path='/courses' element={<Courses />} exact />
           <Route path='/login' element={<Login />} />
-          <Route path='/courses' element={<CreateCourses />} exact />
           <Route path='/courses/:id' element={<CourseInfo />} exact />
-          <Route path='/courses/add' element={<CreateCourses />} exact />
           <Route path='/*' element={<Navigate replace to='/login' />} />
         </Routes>
       </BrowserRouter>
