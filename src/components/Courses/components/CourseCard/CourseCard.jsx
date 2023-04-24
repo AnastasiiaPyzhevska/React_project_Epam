@@ -1,10 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '../../../../common/Button/Button';
 import classes from './CourseCard.module.css';
 import convertTime from '../../../../helpers/convertTime';
 
 function CourseCard({ coursesList, authorList }) {
+  const navigate = useNavigate();
+
+  const handleShowClick = (e, course) => {
+    e.preventDefault();
+    navigate(`/courses/${course.id}`, { state: { course } });
+  };
+
   return coursesList.length !== 0 ? (
     coursesList.map((item) => (
       <div key={item.id} className={classes.courseCard}>
@@ -27,7 +35,7 @@ function CourseCard({ coursesList, authorList }) {
             <strong>Created:</strong> {item.creationDate}
           </p>
           <div className={classes.buttonShowCourse}>
-            <Button buttonText='Show course' type='button' />
+            <Button buttonText='Show course' type='button' onClick={(e) => handleShowClick(e, item)} />
           </div>
         </div>
       </div>

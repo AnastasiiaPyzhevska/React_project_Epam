@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SearchBar from './components/SearchBar/SearchBar';
 import CourseCard from './components/CourseCard/CourseCard';
 import classes from './Courses.module.css';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 import Button from '../../common/Button/Button';
 
-function Courses({ setIsNewCourse }) {
+function Courses() {
   const [courses, setCourses] = useState(mockedCoursesList);
   const [authors, setAuthors] = useState(mockedAuthorsList);
   const [filter, setFilter] = useState('');
+  const navigator = useNavigate();
   const search = (cours) => cours.filter((item) => item.title.toLowerCase().includes(filter) || item.id.toString().includes(filter));
 
   useEffect(() => {
@@ -25,18 +26,18 @@ function Courses({ setIsNewCourse }) {
     setFilter(filt.toString().toLowerCase());
   };
 
-  function createNewCourse() {
-    setIsNewCourse(true);
-  }
-  const handleCreateNewCourse = useCallback(() => {
-    createNewCourse();
-  }, [createNewCourse]);
-
   return (
     <div className={classes.mainCourses}>
       <div className={classes.mainSearchBar}>
         <SearchBar getFilterValue={getFilter} />
-        <Button buttonText='Add new courses' type='button' onClick={handleCreateNewCourse} className={classes.buttonManipulation} />
+        <Button
+          buttonText='Add new courses'
+          type='button'
+          onClick={() => {
+            navigator('/courses/add');
+          }}
+          className={classes.buttonManipulation}
+        />
       </div>
       <div className={classes.coursesCard}>
         <CourseCard coursesList={search(courses)} authorList={authors} />
@@ -44,13 +45,5 @@ function Courses({ setIsNewCourse }) {
     </div>
   );
 }
-
-Courses.propTypes = {
-  setIsNewCourse: PropTypes.func,
-};
-
-Courses.defaultProps = {
-  setIsNewCourse: false,
-};
 
 export default Courses;
