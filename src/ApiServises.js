@@ -1,8 +1,8 @@
-export const loginRequest = async (user) => {
+export const registrationRequest = async (newCustomer) => {
   try {
-    const response = await fetch('http://localhost:4000/login', {
+    const response = await fetch('http://localhost:4000/register', {
       method: 'POST',
-      body: JSON.stringify(user),
+      body: JSON.stringify(newCustomer),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -14,11 +14,11 @@ export const loginRequest = async (user) => {
   }
 };
 
-export const registrationRequest = async (newCustomer) => {
+export const loginRequest = async (user) => {
   try {
-    const response = await fetch('http://localhost:4000/register', {
+    const response = await fetch('http://localhost:4000/login', {
       method: 'POST',
-      body: JSON.stringify(newCustomer),
+      body: JSON.stringify(user),
       headers: {
         'Content-Type': 'application/json',
       },

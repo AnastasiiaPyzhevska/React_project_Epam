@@ -7,7 +7,7 @@ import classes from './Header.module.css';
 import { getUserName } from '../../store/selectors';
 import { userLogout } from '../../store/user/actionCreators';
 
-function Header({ setLoginUser }) {
+function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userName = useSelector(getUserName);
@@ -22,7 +22,7 @@ function Header({ setLoginUser }) {
       localStorage.removeItem('isAuth');
       window.location.reload();
     },
-    [setLoginUser, navigate]
+    [navigate]
   );
 
   return (
