@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
@@ -10,7 +10,7 @@ import Registration from './components/Registration/Registration';
 import PrivateRouter from './components/PrivateRouter/PrivateRouter';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
-import { authorsRequest, coursesRequest } from './servises';
+import { authorsRequest, coursesRequest } from './ApiServises';
 import { getAllAUthors } from './store/authors/actionCreators';
 import { getAllCourses } from './store/courses/actionCreators';
 import { userLogin } from './store/user/actionCreators';

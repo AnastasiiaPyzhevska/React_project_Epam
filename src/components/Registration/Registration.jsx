@@ -3,66 +3,52 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import classes from './Registration.module.css';
-import { registrationRequest } from '../../servises';
+import { registrationRequest } from '../../ApiServises';
 
 function Registration() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
 
   const handleNameChange = useCallback(
-    (e) => {
-      e.preventDefault();
-      setName(e.target.value);
+    (event) => {
+      setFormData({ ...formData, name: event.target.value });
     },
-    [setName]
+    [formData]
   );
 
   const handleEmailChange = useCallback(
-    (e) => {
-      e.preventDefault();
-      setEmail(e.target.value);
+    (event) => {
+      setFormData({ ...formData, email: event.target.value });
     },
-    [setEmail]
+    [formData]
   );
 
   const handlePasswordChange = useCallback(
-    (e) => {
-      e.preventDefault();
-      setPassword(e.target.value);
+    (event) => {
+      setFormData({ ...formData, password: event.target.value });
     },
-    [setPassword]
+    [formData]
   );
 
-  const registration = useCallback(
-    async (newCustomer) => {
-      const response = await registrationRequest(newCustomer);
-      const success = response.successful;
-      if (!success) {
-        alert(response.errors);
-      } else {
-        navigate('/login');
-        setName('');
-        setEmail('');
-        setPassword('');
-        alert(response.result);
-      }
-    },
-    [navigate, setName, setEmail, setPassword]
-  );
+  const registration = async (newCustomer) => {
+    const result = await registrationRequest(newCustomer);
+    console.log(result);
+    const success = result.successful;
+    if (!success) {
+      alert(result.errors);
+    } else {
+      navigate('/login', { state: { from: 'registration', email: formData.email, name: formData.name, password: formData.password } });
+      setFormData({ name: '', email: '', password: '' });
+      alert(result.result);
+    }
+  };
 
   const registrationSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      const createUser = {
-        name,
-        email,
-        password,
-      };
-      registration(createUser);
+      registration(formData);
     },
-    [name, email, password, registration]
+    [formData, registration]
   );
 
   return (
@@ -70,11 +56,11 @@ function Registration() {
       <h1>Registration</h1>
       <form onSubmit={registrationSubmit} className={classes.form}>
         <p>Name</p>
-        <Input type='text' placeholderText='Enter name...' value={name} onChange={handleNameChange} />
+        <Input type='text' name='name' placeholderText='Enter name...' value={formData.name} onChange={handleNameChange} />
         <p>Email</p>
-        <Input type='email' placeholderText='Enter email...' value={email} onChange={handleEmailChange} />
+        <Input type='email' name='email' placeholderText='Enter email...' value={formData.email} onChange={handleEmailChange} />
         <p>Password</p>
-        <Input type='password' placeholderText='Enter password...' value={password} onChange={handlePasswordChange} />
+        <Input type='password' name='password' placeholderText='Enter password...' value={formData.password} onChange={handlePasswordChange} />
         <Button buttonText='Registration' type='submit' />
       </form>
       <div className={classes.link_Login}>
