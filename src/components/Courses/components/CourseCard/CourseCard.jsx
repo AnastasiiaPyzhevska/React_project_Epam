@@ -1,17 +1,22 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { deleteCourse } from '../../../../store/courses/actionCreators';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteCourse, getAllCourses } from '../../../../store/courses/actionCreators';
 import Button from '../../../../common/Button/Button';
 import classes from './CourseCard.module.css';
 import convertTime from '../../../../helpers/convertTime';
 import trash from '../../../../common/Button/trash-solid.svg';
 import pen from '../../../../common/Button/pen-to-square-solid.svg';
+import { getUserRole, getCourses } from '../../../../store/selectors';
+import { fetchDeleteCourse, fetchGetAllCourses } from '../../../../store/courses/thunk';
 
 function CourseCard({ course, authorList }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const roleUser = useSelector(getUserRole);
+  const courses = useSelector(getCourses);
+  console.log(authorList);
 
   const handleShowClick = useCallback(
     (e, clickedCourse) => {
@@ -25,7 +30,9 @@ function CourseCard({ course, authorList }) {
     (e, clickedCourse) => {
       e.preventDefault();
       const idCourse = clickedCourse.id;
-      dispatch(deleteCourse(idCourse));
+      dispatch(fetchDeleteCourse(idCourse)).then(() => {
+        dispatch(fetchGetAllCourses());
+      });
     },
     [dispatch]
   );
@@ -53,8 +60,8 @@ function CourseCard({ course, authorList }) {
         </p>
         <div className={classes.buttonShowCourse}>
           <Button buttonText='Show course' type='button' onClick={(e) => handleShowClick(e, course)} />
-          <Button type='button' icon={trash} onClick={(e) => handleDeleteClick(e, course)} />
-          <Button type='button' icon={pen} />
+          {roleUser === 'admin' && <Button type='button' icon={trash} onClick={(e) => handleDeleteClick(e, course)} />}
+          {roleUser === 'admin' && <Button type='button' icon={pen} />}
         </div>
       </div>
     </div>

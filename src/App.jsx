@@ -1,53 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
 import './App.css';
 import CourseForm from './components/Courses/components/CourseForm/CourseForm';
-import Logo from './components/Header/components/Logo/Logo';
 import Registration from './components/Registration/Registration';
 import PrivateRouter from './components/PrivateRouter/PrivateRouter';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
-import { authorsRequest, coursesRequest } from './ApiServises';
-import { getAllAUthors } from './store/authors/actionCreators';
-import { getAllCourses } from './store/courses/actionCreators';
 import { userLogin } from './store/user/actionCreators';
+import { fetchCurrentUser } from './store/user/thunk';
+import { getUser } from './store/selectors';
+import { fetchGetAllCourses } from './store/courses/thunk';
+import { fetchGetAllAuthors } from './store/authors/thunk';
 
 function App() {
   const dispatch = useDispatch();
   const userToken = localStorage.getItem('token');
   const userName = localStorage.getItem('name');
+  const user = useSelector(getUser);
 
-  const fetchCourses = async () => {
-    const response = await coursesRequest();
-    dispatch(getAllCourses(response.result));
-  };
-
-  const fetchAuthors = async () => {
-    const response = await authorsRequest();
-    dispatch(getAllAUthors(response.result));
+  const fetchCurrentUserRole = async () => {
+    await dispatch(fetchCurrentUser());
   };
 
   useEffect(() => {
     if (userToken) {
       dispatch(userLogin({ isAuth: true, name: userName }));
     }
-    fetchAuthors();
-    fetchCourses();
-  }, [dispatch]);
+    fetchCurrentUserRole();
+  }, [dispatch, userToken]);
 
   return (
     <div className='main'>
       <BrowserRouter>
-        {!userToken ? (
-          <div className='header'>
-            <Logo />
-          </div>
-        ) : (
-          <Header />
-        )}
+        <Header />
         <Routes>
           <Route element={<PrivateRouter />}>
             <Route path='/courses/add' element={<CourseForm />} exact />

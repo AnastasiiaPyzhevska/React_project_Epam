@@ -12,11 +12,14 @@ import DurationInput from './components/DurationInput';
 import { saveNewCourse } from '../../../../store/courses/actionCreators';
 import { saveNewAuthor } from '../../../../store/authors/actionCreators';
 import { getAuthors } from '../../../../store/selectors';
+import { fetchSaveNewCourse } from '../../../../store/courses/thunk';
+import { fetchGetAllAuthors, fetchSaveNewAuthor } from '../../../../store/authors/thunk';
 
 function CourseForm() {
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const authorsList = useSelector(getAuthors);
+  console.log(authorsList);
   const [displayAuthors, setDisplayAuthors] = useState(authorsList.sort((a1, a2) => (a1.name < a2.name ? -1 : 1)));
 
   const [title, setTitle] = useState('');
@@ -38,18 +41,25 @@ function CourseForm() {
   const [selectedAuthors, setSelectedAuthors] = useState([]);
 
   const createNewCource = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
+      const selectedAuthorNames = selectedAuthors.map((selectedAuthor) => selectedAuthor.name);
+      const authorIds = authorsList.filter((authorItem) => selectedAuthorNames.includes(authorItem.name)).map((authorItem) => authorItem.id);
+      console.log(authorIds);
       if (title && description && duration && selectedAuthors.length !== 0) {
         const newCource = {
           title,
           description,
           duration,
-          authors: selectedAuthors.map((auth) => auth.id),
+          authors: authorIds,
           id: uuidv4(),
           creationDate: new Date().toLocaleDateString('en-GB'),
         };
-        dispatch(saveNewCourse(newCource));
+        console.log(selectedAuthors);
+        console.log(newCource);
+        console.log(newCource.authors);
+        console.log(authorsList.filter((name) => selectedAuthors.includes(name.name)).map((name) => name.id));
+        await dispatch(fetchSaveNewCourse(newCource));
         navigator('/courses');
       } else {
         alert('Something wrong... Fill all inputs and choose author/s');
@@ -57,15 +67,17 @@ function CourseForm() {
     },
     [[title, description, duration, selectedAuthors]]
   );
+  console.log(selectedAuthors);
 
   const createNewAuthor = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       const newAuthor = {
-        id: uuidv4(),
         name: author,
       };
-      dispatch(saveNewAuthor(newAuthor));
+      await dispatch(fetchSaveNewAuthor(newAuthor));
+      console.log(newAuthor);
+      console.log(authorsList);
       setDisplayAuthors([...displayAuthors, newAuthor].sort((a1, a2) => (a1.name < a2.name ? -1 : 1)));
       setAuthor('');
     },
@@ -132,6 +144,7 @@ function CourseForm() {
       setDuration(e.target.value);
       const re = /^[0-9\b]+$/;
       if (re.test(e.target.value) && e.target.value > 0) {
+        setDuration(Number(e.target.value));
         setDurationError('');
       } else {
         setDurationError('Enter duration at least 1 minutes');
