@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import TitleInput from './components/TitleInput';
 import DescriptionInput from './components/DescriptionInput';
@@ -9,17 +9,17 @@ import AddAuthorsToList from './components/AddAuthorsToList';
 import RemoveAuthorsFromList from './components/RemoveAuthorsFromList';
 import classes from './CourseForm.module.css';
 import DurationInput from './components/DurationInput';
-import { saveNewCourse } from '../../../../store/courses/actionCreators';
-import { saveNewAuthor } from '../../../../store/authors/actionCreators';
-import { getAuthors } from '../../../../store/selectors';
-import { fetchSaveNewCourse } from '../../../../store/courses/thunk';
-import { fetchGetAllAuthors, fetchSaveNewAuthor } from '../../../../store/authors/thunk';
+import { getAuthors, getCourses } from '../../../../store/selectors';
+import { fetchSaveNewCourse, fetchUpdateCourse, fetchGetAllCourses } from '../../../../store/courses/thunk';
+import { fetchSaveNewAuthor } from '../../../../store/authors/thunk';
 
 function CourseForm() {
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const authorsList = useSelector(getAuthors);
-  console.log(authorsList);
+  const coursesList = useSelector(getCourses);
+  const param = useParams();
+
   const [displayAuthors, setDisplayAuthors] = useState(authorsList.sort((a1, a2) => (a1.name < a2.name ? -1 : 1)));
 
   const [title, setTitle] = useState('');
@@ -39,15 +39,31 @@ function CourseForm() {
   const [durationError, setDurationError] = useState('Can`t be empty...');
 
   const [selectedAuthors, setSelectedAuthors] = useState([]);
+  const [creationDate, setCreationDate] = useState('');
 
-  const createNewCource = useCallback(
+  useEffect(() => {
+    if (param.id) {
+      const upDateCourse = coursesList.find((course) => course.id === param.id);
+      const { title, description, authors, duration, creationDate } = upDateCourse;
+      const selectedAuthors = authorsList.filter((author) => authors.includes(author.id));
+      const displayedAuthors = authorsList.filter((author) => !authors.includes(author.id));
+      setTitle(title);
+      setDuration(duration);
+      setDescription(description);
+      setCreationDate(creationDate);
+      setSelectedAuthors(selectedAuthors);
+      setDisplayAuthors(displayedAuthors);
+    }
+  }, [param]);
+
+  const handleCourse = useCallback(
     async (e) => {
       e.preventDefault();
       const selectedAuthorNames = selectedAuthors.map((selectedAuthor) => selectedAuthor.name);
       const authorIds = authorsList.filter((authorItem) => selectedAuthorNames.includes(authorItem.name)).map((authorItem) => authorItem.id);
       console.log(authorIds);
       if (title && description && duration && selectedAuthors.length !== 0) {
-        const newCource = {
+        const currentCourse = {
           title,
           description,
           duration,
@@ -55,19 +71,23 @@ function CourseForm() {
           id: uuidv4(),
           creationDate: new Date().toLocaleDateString('en-GB'),
         };
-        console.log(selectedAuthors);
-        console.log(newCource);
-        console.log(newCource.authors);
-        console.log(authorsList.filter((name) => selectedAuthors.includes(name.name)).map((name) => name.id));
-        await dispatch(fetchSaveNewCourse(newCource));
-        navigator('/courses');
+
+        if (param.id) {
+          dispatch(fetchUpdateCourse(param.id, currentCourse)).then(async () => {
+            await dispatch(fetchGetAllCourses());
+            navigator('/courses');
+          });
+        } else {
+          console.log('fetchSaveNewCourse');
+          await dispatch(fetchSaveNewCourse(currentCourse));
+          navigator('/courses');
+        }
       } else {
         alert('Something wrong... Fill all inputs and choose author/s');
       }
     },
-    [[title, description, duration, selectedAuthors]]
+    [[title, description, duration, selectedAuthors, dispatch]]
   );
-  console.log(selectedAuthors);
 
   const createNewAuthor = useCallback(
     async (e) => {
@@ -76,8 +96,6 @@ function CourseForm() {
         name: author,
       };
       await dispatch(fetchSaveNewAuthor(newAuthor));
-      console.log(newAuthor);
-      console.log(authorsList);
       setDisplayAuthors([...displayAuthors, newAuthor].sort((a1, a2) => (a1.name < a2.name ? -1 : 1)));
       setAuthor('');
     },
@@ -180,7 +198,8 @@ function CourseForm() {
           title={title}
           onBlurHandle={onBlurHandle}
           titleHandler={titleHandler}
-          createNewCource={createNewCource}
+          handleCourse={handleCourse}
+          courseID={param.id}
         />
         <DescriptionInput
           classes={classes}

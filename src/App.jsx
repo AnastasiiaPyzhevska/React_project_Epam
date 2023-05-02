@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
@@ -11,15 +11,11 @@ import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 import { userLogin } from './store/user/actionCreators';
 import { fetchCurrentUser } from './store/user/thunk';
-import { getUser } from './store/selectors';
-import { fetchGetAllCourses } from './store/courses/thunk';
-import { fetchGetAllAuthors } from './store/authors/thunk';
 
 function App() {
   const dispatch = useDispatch();
   const userToken = localStorage.getItem('token');
   const userName = localStorage.getItem('name');
-  const user = useSelector(getUser);
 
   const fetchCurrentUserRole = async () => {
     await dispatch(fetchCurrentUser());

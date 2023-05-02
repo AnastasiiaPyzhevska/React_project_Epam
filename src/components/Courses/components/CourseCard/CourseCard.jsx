@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCourse, getAllCourses } from '../../../../store/courses/actionCreators';
 import Button from '../../../../common/Button/Button';
 import classes from './CourseCard.module.css';
 import convertTime from '../../../../helpers/convertTime';
@@ -16,14 +15,13 @@ function CourseCard({ course, authorList }) {
   const dispatch = useDispatch();
   const roleUser = useSelector(getUserRole);
   const courses = useSelector(getCourses);
-  console.log(authorList);
 
   const handleShowClick = useCallback(
     (e, clickedCourse) => {
       e.preventDefault();
       navigate(`/courses/${course.id}`, { state: { clickedCourse } });
     },
-    [course.id]
+    [course.id, navigate]
   );
 
   const handleDeleteClick = useCallback(
@@ -37,7 +35,15 @@ function CourseCard({ course, authorList }) {
     [dispatch]
   );
 
-  return !course.length ? (
+  const handleUpdateClick = useCallback(
+    (e, clickedCourse) => {
+      e.preventDefault();
+      navigate(`/courses/update/${course.id}`, { state: { clickedCourse } });
+    },
+    [course.id, navigate]
+  );
+
+  return (
     <div key={course.id} className={classes.courseCard}>
       <div className={classes.description}>
         <h1>{course.title}</h1>
@@ -61,12 +67,10 @@ function CourseCard({ course, authorList }) {
         <div className={classes.buttonShowCourse}>
           <Button buttonText='Show course' type='button' onClick={(e) => handleShowClick(e, course)} />
           {roleUser === 'admin' && <Button type='button' icon={trash} onClick={(e) => handleDeleteClick(e, course)} />}
-          {roleUser === 'admin' && <Button type='button' icon={pen} />}
+          {roleUser === 'admin' && <Button type='button' icon={pen} onClick={(e) => handleUpdateClick(e, course)} />}
         </div>
       </div>
     </div>
-  ) : (
-    <div>Courses List is empty</div>
   );
 }
 

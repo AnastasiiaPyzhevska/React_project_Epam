@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '../../../../../common/Button/Button';
 
 function RemoveAuthorsFromList({ classes, selectedAuthors, removeAuthorFromList }) {
+  console.log(selectedAuthors);
   return (
     <div className={classes.authorAddSet}>
       <h3>Course authors</h3>

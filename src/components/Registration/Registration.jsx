@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import classes from './Registration.module.css';
@@ -9,7 +8,6 @@ import { registrationRequest } from '../../ApiServises';
 function Registration() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleNameChange = useCallback(
     (event) => {
@@ -33,9 +31,7 @@ function Registration() {
   );
 
   const registration = async (newCustomer) => {
-    // dispatch(registrationRequest(newCustomer));
     const result = await registrationRequest(newCustomer);
-    console.log(result);
     const success = result.successful;
     if (!success) {
       alert(result.errors);

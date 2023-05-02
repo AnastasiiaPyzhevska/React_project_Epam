@@ -42,14 +42,18 @@ function Courses() {
           <Button buttonText='Add new courses' type='button' onClick={createNewCourse} className={classes.buttonManipulation} />
         )}
       </div>
-      {filteredCourses.map((course) => {
-        const authorsName = course.authors.map((id) => authors.find((author) => author.id === id));
-        return (
-          <div key={course.id} className={classes.coursesCard}>
-            <CourseCard course={course} authorList={authorsName} />
-          </div>
-        );
-      })}
+      {filteredCourses.length ? (
+        filteredCourses.map((course) => {
+          const authorsName = course.authors.map((id) => authors.find((author) => author.id === id));
+          return (
+            <div key={course.id} className={classes.coursesCard}>
+              <CourseCard course={course} authorList={authorsName} />
+            </div>
+          );
+        })
+      ) : (
+        <div>Courses List is empty</div>
+      )}
     </div>
   );
 }

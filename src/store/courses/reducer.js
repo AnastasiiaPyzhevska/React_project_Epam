@@ -13,7 +13,7 @@ const coursesReducer = (state = initialStateForCourses, action) => {
     case ActionTypes.DELETE_COURSE:
       return { ...state, courses: [...state.courses.filter((course) => course.id !== action.payload)] };
     case ActionTypes.UPDATE_COURSE:
-      return [...action.payload];
+      return { ...state, courses: action.payload };
     default:
       return state;
   }

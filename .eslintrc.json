@@ -41,6 +41,7 @@
         "no-alert": "off",
         "react/button-has-type": "off",
         "default-param-last": "off",
-        "no-unused-vars": "off"
+        "no-unused-vars": "off",
+        "no-shadow": "off"
     }
 }

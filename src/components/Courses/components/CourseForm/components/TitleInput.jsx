@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Input from '../../../../../common/Input/Input';
 import Button from '../../../../../common/Button/Button';
 
-function TitleInput({ classes, titleDirty, titleError, title, onBlurHandle, titleHandler, createNewCource }) {
+function TitleInput({ classes, titleDirty, titleError, title, onBlurHandle, titleHandler, handleCourse, courseID }) {
   return (
     <>
       <h3 className={classes.header}>Title </h3>
@@ -30,7 +30,8 @@ function TitleInput({ classes, titleDirty, titleError, title, onBlurHandle, titl
           onBlur={(e) => onBlurHandle(e)}
           onChange={(e) => titleHandler(e)}
         />
-        <Button buttonText='Create course' type='button' onClick={createNewCource} className={classes.buttonManipulation} />
+        {courseID && <Button buttonText='Update course' type='button' onClick={handleCourse} className={classes.buttonManipulation} />}
+        {!courseID && <Button buttonText='Create course' type='button' onClick={handleCourse} className={classes.buttonManipulation} />}
       </div>
     </>
   );
@@ -45,9 +46,14 @@ TitleInput.propTypes = {
   titleDirty: PropTypes.bool.isRequired,
   titleError: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  courseID: PropTypes.string,
   onBlurHandle: PropTypes.func.isRequired,
   titleHandler: PropTypes.func.isRequired,
-  createNewCource: PropTypes.func.isRequired,
+  handleCourse: PropTypes.func.isRequired,
+};
+
+TitleInput.defaultProps = {
+  courseID: null,
 };
 
 export default TitleInput;

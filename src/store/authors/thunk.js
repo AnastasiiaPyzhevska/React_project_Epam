@@ -10,6 +10,5 @@ export const fetchGetAllAuthors = () => async (dispatch) => {
 export const fetchSaveNewAuthor = (newAuthor) => async (dispatch) => {
   const response = await addNewAuthor(newAuthor);
   const dataAuthor = response.result;
-  console.log(response);
   dispatch({ type: ActionTypes.SAVE_NEW_AUTHOR, payload: dataAuthor });
 };
